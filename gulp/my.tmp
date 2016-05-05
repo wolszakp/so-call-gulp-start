@@ -16,6 +16,7 @@ gulp.task('foo', function() {
   console.log('My first gulp task');
 });
 
+
 END 1 ###########################################
 
 2 #############################################
@@ -312,3 +313,19 @@ gulp.task('annotate', ['clean'], function() {
 /* @ngInject */
 
 END 8 ##############################################
+
+9 ###########################################
+/*
+  It require install additional packages
+  npm install --save-dev gulp-task-listing
+*/
+
+'use strict';
+
+var gulp = require('gulp');
+var $ = require('gulp-load-plugins')({lazy: true});
+
+gulp.task('help', $.taskListing());
+
+
+END 9 ###########################################
