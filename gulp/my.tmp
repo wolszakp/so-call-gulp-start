@@ -1,0 +1,280 @@
+/*
+  It require install additional packages
+  npm install --save-dev yargs gulp-print
+                         gulp-load-plugins
+                         gulp-util
+
+*/
+
+1 ###########################################
+
+'use strict';
+
+var gulp = require('gulp');
+
+gulp.task('foo', function() {
+  console.log('My first gulp task');
+});
+
+END 1 ###########################################
+
+2 #############################################
+
+/*
+  It require install additional packages
+  npm install --save-dev gulp-util
+*/
+
+'use strict';
+
+var gulp = require('gulp');
+var util = require('gulp-util');
+
+gulp.task('foo', function() {
+  log('My first gulp task');
+});
+
+function log(message) {
+  util.log(util.colors.blue(message));
+}
+
+
+END 2 #############################################
+
+3 #############################################
+/*
+  It require packages:
+  npm install --save-dev gulp-util
+  npm install --save-dev gulp-print
+*/
+
+'use strict';
+
+var gulp = require('gulp');
+var util = require('gulp-util');
+var print = require('gulp-print');
+
+gulp.task('foo', function() {
+  log('How to print pipe content');
+
+  return gulp
+    .src([
+      './src/**/*.js',
+      './*.js'])
+    .pipe(print());
+});
+
+function log(message) {
+  util.log(util.colors.blue(message));
+}
+
+END 3 #############################################
+
+4 #############################################
+
+/*
+  It require packages:
+  npm install --save-dev gulp-util
+  npm install --save-dev gulp-print
+  npm install --save-dev gulp-less
+  npm install --save-dev del
+  npm install --save-dev gulp-plumber
+  npm install --save-dev gulp-autoprefixer
+*/
+
+'use strict';
+
+var gulp = require('gulp');
+var print = require('gulp-print');
+var util = require('gulp-util');
+var less = require('gulp-less');
+var plumber = require('gulp-plumber');
+var autoprefixer = require('gulp-autoprefixer');
+
+var del = require('del');
+
+var tmp = './.tmp/';
+
+gulp.task('compile-less', ['clean'], function() {
+  log('Compile Less -> Css');
+
+  return gulp
+    .src('./src/**/*.less')
+    .pipe(plumber())
+    .pipe(less())
+    // .on('error', function(error) {
+    //   util.log(util.colors.red(error));
+    //   this.emit('end');
+    // })
+    .pipe(autoprefixer())
+    .pipe(gulp.dest(tmp));
+});
+
+gulp.task('clean', function() {
+  log('Cleaning tmp');
+
+  return del(tmp);
+});
+
+function log(message) {
+  util.log(util.colors.blue(message));
+}
+
+END 4 #############################################
+
+5 ##############################################
+
+/*
+  It require packages:
+  npm install --save-dev gulp-util
+  npm install --save-dev gulp-print
+  npm install --save-dev gulp-less
+  npm install --save-dev del
+  npm install --save-dev gulp-plumber
+  npm install --save-dev gulp-autoprefixer
+  npm install --save-dev gulp-load-plugins
+  npm install --save-dev yargs
+  npm install --save-dev gulp-if
+*/
+
+'use strict';
+
+var gulp = require('gulp');
+var args = require('yargs').argv;
+var $ = require('gulp-load-plugins')({lazy: true});
+var del = require('del');
+
+var tmp = './.tmp/';
+var less = ['./src/**/*.less'];
+
+gulp.task('compile-less', ['clean'], function() {
+  log('Compile Less -> Css');
+
+  return gulp
+    .src(less)
+    .pipe($.if(args.verbose, $.print()))
+    .pipe($.plumber())
+    .pipe($.less())
+    .pipe($.autoprefixer())
+    .pipe(gulp.dest(tmp));
+});
+
+gulp.task('clean', function() {
+  log('Cleaning tmp');
+
+  return del(tmp);
+});
+
+function log(message) {
+  $.util.log($.util.colors.blue(message));
+}
+
+END 5 ##############################################
+
+6 ##############################################
+
+/*
+  It require packages:
+  npm install --save-dev gulp-util
+  npm install --save-dev gulp-print
+  npm install --save-dev gulp-less
+  npm install --save-dev del
+  npm install --save-dev gulp-plumber
+  npm install --save-dev gulp-autoprefixer
+  npm install --save-dev gulp-load-plugins
+  npm install --save-dev yargs
+  npm install --save-dev gulp-if
+*/
+
+'use strict';
+
+var gulp = require('gulp');
+var args = require('yargs').argv;
+var $ = require('gulp-load-plugins')({lazy: true});
+var del = require('del');
+
+var tmp = './.tmp/';
+var less = ['./src/**/*.less'];
+
+gulp.task('compile-less', ['clean'], function() {
+  log('Compile Less -> Css');
+
+  return gulp
+    .src(less)
+    .pipe($.if(args.verbose, $.print()))
+    .pipe($.plumber())
+    .pipe($.less())
+    .pipe($.autoprefixer())
+    .pipe(gulp.dest(tmp));
+});
+
+gulp.task('clean', function() {
+  log('Cleaning tmp');
+
+  return del(tmp);
+});
+
+gulp.task('watch-less', function() {
+  log('Watch less files');
+  gulp.watch(less, ['compile-less']);
+});
+
+function log(message) {
+  $.util.log($.util.colors.blue(message));
+}
+
+END 6 ##############################################
+
+7 ##############################################
+/*
+  It require packages:
+  npm install --save-dev gulp-util
+  npm install --save-dev gulp-print
+  npm install --save-dev gulp-less
+  npm install --save-dev del
+  npm install --save-dev gulp-plumber
+  npm install --save-dev gulp-autoprefixer
+  npm install --save-dev gulp-load-plugins
+  npm install --save-dev yargs
+  npm install --save-dev gulp-if
+  npm install --save-dev gulp-angular-templatecache
+  npm install --save-dev gulp-minify-html
+*/
+
+'use strict';
+
+var gulp = require('gulp');
+var $ = require('gulp-load-plugins')({lazy: true});
+var del = require('del');
+
+var tmp = './.tmp/';
+var htmlTemplates = './src/app/**/*.html';
+var templatecache = {
+  file: 'templates.js',
+  options: {
+    module: 'gulpStart',
+    standAlone: false,
+    root: 'app/'
+  }
+};
+
+gulp.task('templatecache', ['clean'], function() {
+  return gulp
+    .src(htmlTemplates)
+    .pipe($.minifyHtml({empty:true}))
+    .pipe($.angularTemplatecache(templatecache.file, templatecache.options))
+    .pipe(gulp.dest(tmp));
+});
+
+function log(message) {
+  $.util.log($.util.colors.blue(message));
+}
+
+END 7 ##############################################
+
+8 ##############################################
+
+END 8 ##############################################
+
+// Angular tasks
+// ng-anotate
