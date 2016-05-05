@@ -273,8 +273,42 @@ function log(message) {
 END 7 ##############################################
 
 8 ##############################################
+/*
+  It require packages:
+  npm install --save-dev gulp-util
+  npm install --save-dev gulp-print
+  npm install --save-dev gulp-less
+  npm install --save-dev del
+  npm install --save-dev gulp-plumber
+  npm install --save-dev gulp-autoprefixer
+  npm install --save-dev gulp-load-plugins
+  npm install --save-dev yargs
+  npm install --save-dev gulp-if
+  npm install --save-dev gulp-angular-templatecache
+  npm install --save-dev gulp-minify-html
+  npm install --save-dev gulp-ng-annotate
+  npm install --save-dev gulp-uglify
+*/
+
+'use strict';
+
+var gulp = require('gulp');
+var $ = require('gulp-load-plugins')({lazy: true});
+var del = require('del');
+
+var tmp = './.tmp/';
+var js = './src/app/**/*.js';
+
+
+gulp.task('annotate', ['clean'], function() {
+  return gulp
+    .src(js)
+    .pipe($.plumber())
+    .pipe($.ngAnnotate())
+    .pipe($.uglify())
+    .pipe(gulp.dest(tmp));
+});
+
+/* @ngInject */
 
 END 8 ##############################################
-
-// Angular tasks
-// ng-anotate
