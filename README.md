@@ -91,7 +91,3 @@ When? tests run | code lints | compile to css
   - gulp-less
   - gulp-plumber
   - `on('error', function(error) { this.emit('end'); })`
-
-## 5.4) HTML Injection
-  - `npm install --save-dev wiredep`
-  - `npm install --save-dev gulp-inject`
